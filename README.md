@@ -19,7 +19,6 @@ A REST API backend for a content browsing/watchlist platform ("Solo Clone"), bui
 - **Auth** — register, login, logout with Sanctum-issued API tokens, rate-limited against brute force.
 - **Content browsing** — list, search/filter, and view content details (public, no auth required).
 - **Cart & Watchlist** — authenticated users can add/remove/list content in a cart and a watchlist, with per-user isolation.
-- **TMDB import (bonus)** — an Artisan command imports real movie data from [The Movie Database](https://www.themoviedb.org/) API into the `contents` table.
 
 ## Database Schema
 
@@ -101,25 +100,6 @@ Authenticated requests use a Bearer token from `/api/register` or `/api/login`:
 Authorization: Bearer <token>
 ```
 
-## TMDB Import (Bonus)
-
-Populate `contents` with real movie data from TMDB.
-
-1. Get a free API key from [themoviedb.org](https://www.themoviedb.org/settings/api) (choose the **Developer** plan).
-2. Add it to `.env`:
-
-   ```env
-   TMDB_API_KEY=your-key-here
-   ```
-
-3. Run the import:
-
-   ```bash
-   php artisan tmdb:import --pages=1
-   ```
-
-   Each page imports up to 20 movies. Already-imported movies (matched by slug) are skipped.
-
 ## Testing
 
 Tests run against a separate `solo_clone_testing` MySQL database (configured in `phpunit.xml`).
@@ -128,4 +108,4 @@ Tests run against a separate `solo_clone_testing` MySQL database (configured in 
 php artisan test
 ```
 
-Test coverage includes registration/login/logout, route protection, cart/watchlist persistence and per-user isolation, and the TMDB import command (mocked via `Http::fake()`).
+Test coverage includes registration/login/logout, route protection, and cart/watchlist persistence and per-user isolation.
